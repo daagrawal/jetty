@@ -1,5 +1,6 @@
 set(SOURCES_LIB
 	run_pythia.cxx
+	run_rose.cxx
 )
 
 set(MODULE ${PROJECT_NAME}Devan)
