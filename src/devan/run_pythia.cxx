@@ -17,7 +17,7 @@ using namespace std;
 
 int run_pythia (const std::string &s)
 {
-        cout << "[i] THIS IS DEVANS CODE" << endl;
+        cout << "[i] Hello World" << endl;
         PyUtil::Args args(s);
         cout << args.asString("[pythia_run_wrapper:status]") << endl;
         if (args.isSet("--dry")) return 0;
