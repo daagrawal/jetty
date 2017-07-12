@@ -53,7 +53,7 @@ int run_pythia (const std::string &s)
                     	hpT->Fill(event[ip].pT(), 1./event[ip].pT());
             }
         }
-        pythia.stat();
+        pythia.stat();  
         cout << "[i] Generation done." << endl;
 
         // remember to properly save/update and close the output file

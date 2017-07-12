@@ -1,6 +1,6 @@
 #include <util/args.h>
 #include "run_pythia.h"
-#include "run_rose.h"
+#include "run_paper.h"
 
 int main ( int argc, char *argv[] )
 {
@@ -13,9 +13,9 @@ int main ( int argc, char *argv[] )
     	rv = run_pythia(args.asString());
     }
 
-    if (args.isSet("--rose"))
+    if (args.isSet("--paper"))
     {
-    	rv = run_rose(args.asString());
+    	rv = run_paper(args.asString());
     }
 
     return rv;

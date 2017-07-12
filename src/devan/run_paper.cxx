@@ -1,4 +1,4 @@
-#include "run_rose.h"
+#include "run_paper.h"
 
 
 #include <util/pyargs.h>
@@ -16,9 +16,8 @@
 
 using namespace std;
 
-int run_rose (const std::string &s)
+int run_paper (const std::string &s)
 {
-        cout << "[i] THIS IS DEVANS CODE" << endl;
         PyUtil::Args args(s);
         cout << args.asString("[pythia_run_wrapper:status]") << endl;
         if (args.isSet("--dry")) return 0;
@@ -41,7 +40,7 @@ int run_rose (const std::string &s)
 		// this is where the event loop section starts
         auto nEv = args.getI("Main:numberOfEvents");
         LoopUtil::TPbar pbar(nEv);
-        cout << "in rose" << endl;
+        cout << "in paper" << endl;
         for (unsigned int iE = 0; iE < nEv; iE++)
         {
         	pbar.Update();
