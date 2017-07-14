@@ -50,8 +50,9 @@ int run_paper (const std::string &s)
             for (unsigned int ip = 0; ip < event.size(); ip++)
             {
                 if (event[ip].isFinal())
-                    if (TMath::Abs(event[ip].eta()) < 1.)
-                    	hpT->Fill(event[ip].pT(), 1./event[ip].pT());
+                    if (event[ip].isCharged())
+                        if (TMath::Abs(event[ip].eta()) < .8)
+                    	   hpT->Fill(event[ip].pT(), 1./event[ip].pT());
             }
         }
         pythia.stat();
