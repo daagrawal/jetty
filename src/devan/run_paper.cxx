@@ -31,6 +31,8 @@ int run_paper (const std::string &s)
         TFile *fout = TFile::Open(outfname.c_str(), "RECREATE");
         fout->cd();
         TH1F *hpT = new TH1F("hpT", "pT;p_{T} (GeV/#it{c});counts", 50, 0, 100);
+        TH1F *norm = new TH1F("norm", "pT;p_{T} (GeV/#it{c});counts", 3, 0, 3);
+        double eta = .8;
 
         // initialize pythia with a config and command line args
 		Pythia8::Pythia *ppythia = PyUtil::make_pythia(args.asString());
@@ -49,11 +51,17 @@ int run_paper (const std::string &s)
             // loop over particles in the event
             for (unsigned int ip = 0; ip < event.size(); ip++)
             {
-                if (event[ip].isFinal())
-                    if (TMath::Abs(event[ip].eta()) < 1.)
-                    	hpT->Fill(event[ip].pT(), 1./event[ip].pT());
+                if (event[ip].isFinal() && event[ip].isCharged() && TMath::Abs(event[ip].eta()) < eta)
+                {
+                	hpT->Fill(event[ip].pT(), 1./event[ip].pT());
+                }
             }
         }
+
+        norm->SetBinContent(1, pythia.info.sigmaGen());
+        norm->SetBinContent(2, pythia.info.weightSum());
+        norm->SetBinContent(3, eta);
+
         pythia.stat();
         cout << "[i] Generation done." << endl;
 
