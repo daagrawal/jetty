@@ -30,7 +30,7 @@ int run_paper (const std::string &s)
         }
         TFile *fout = TFile::Open(outfname.c_str(), "RECREATE");
         fout->cd();
-        TH1F *hpT = new TH1F("hpT", "pT;p_{T} (GeV/#it{c});counts", 50, 0, 100);
+        TH1F *hpT = new TH1F("hpT", "pT;p_{T} (GeV/#it{c});counts", 100, 0, 30);
         TH1F *norm = new TH1F("norm", "pT;p_{T} (GeV/#it{c});counts", 3, 0, 3);
         double eta = .8;
 
@@ -53,11 +53,7 @@ int run_paper (const std::string &s)
             {
                 if (event[ip].isFinal() && event[ip].isCharged() && TMath::Abs(event[ip].eta()) < eta)
                 {
-<<<<<<< HEAD
                 	hpT->Fill(event[ip].pT(), 1./event[ip].pT());
-=======
-                    hpT->Fill(event[ip].pT(), 1./event[ip].pT());
->>>>>>> 4a9abe4078ca79b1c1a378f954de74a6c4c673f0
                 }
             }
         }
