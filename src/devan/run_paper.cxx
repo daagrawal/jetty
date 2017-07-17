@@ -49,10 +49,10 @@ int run_paper (const std::string &s)
             // loop over particles in the event
             for (unsigned int ip = 0; ip < event.size(); ip++)
             {
-                if (event[ip].isFinal())
-                    if (event[ip].isCharged())
-                        if (TMath::Abs(event[ip].eta()) < .8)
-                    	   hpT->Fill(event[ip].pT(), 1./event[ip].pT());
+                if (event[ip].isFinal() && event[ip].isCharged() && TMath::Abs(event[ip].eta()) < eta)
+                {
+                    hpT->Fill(event[ip].pT(), 1./event[ip].pT());
+                }
             }
         }
         pythia.stat();
