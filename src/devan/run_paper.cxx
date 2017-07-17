@@ -53,7 +53,11 @@ int run_paper (const std::string &s)
             {
                 if (event[ip].isFinal() && event[ip].isCharged() && TMath::Abs(event[ip].eta()) < eta)
                 {
+<<<<<<< HEAD
                 	hpT->Fill(event[ip].pT(), 1./event[ip].pT());
+=======
+                    hpT->Fill(event[ip].pT(), 1./event[ip].pT());
+>>>>>>> 4a9abe4078ca79b1c1a378f954de74a6c4c673f0
                 }
             }
         }
