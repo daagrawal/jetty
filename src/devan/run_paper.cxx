@@ -28,9 +28,14 @@ int run_paper (const std::string &s)
         {
         	outfname = "default_output.root";
         }
+
+        TFile *alice = TFile::Open("~/LBNL/outputs/HEPData-ins1241422-v1-root.root");
+        alice->cd("Table 1");
+        TH1F *hpT = (TH1F*)gDirectory->Get("Hist1D_y3");
+        hpt->Reset();
+        
         TFile *fout = TFile::Open(outfname.c_str(), "RECREATE");
         fout->cd();
-        TH1F *hpT = new TH1F("hpT", "pT;p_{T} (GeV/#it{c});counts", 100, 0, 30);
         TH1F *norm = new TH1F("norm", "pT;p_{T} (GeV/#it{c});counts", 3, 0, 3);
         double eta = .8;
 
@@ -42,7 +47,6 @@ int run_paper (const std::string &s)
 		// this is where the event loop section starts
         auto nEv = args.getI("Main:numberOfEvents");
         LoopUtil::TPbar pbar(nEv);
-        cout << "in paper" << endl;
         for (unsigned int iE = 0; iE < nEv; iE++)
         {
         	pbar.Update();
