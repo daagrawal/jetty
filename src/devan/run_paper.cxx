@@ -31,7 +31,7 @@ int run_paper (const std::string &s)
 
         TFile *alice = TFile::Open("~/LBNL/outputs/HEPData-ins1241422-v1-root.root");
         alice->cd("Table 1");
-        TH1F *hpT = (TH1F*)gDirectory->Get("Hist1D_y3");
+        TH1F *hpT = (TH1F*)gDirectory->Get("Graph1D_y3");
         hpT->Reset();
         
         TFile *fout = TFile::Open(outfname.c_str(), "RECREATE");
