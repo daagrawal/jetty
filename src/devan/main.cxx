@@ -1,6 +1,7 @@
 #include <util/args.h>
 #include "run_pythia.h"
 #include "run_paper.h"
+#include "run_jetfinding.h"
 
 int main ( int argc, char *argv[] )
 {
@@ -16,6 +17,11 @@ int main ( int argc, char *argv[] )
     if (args.isSet("--paper"))
     {
     	rv = run_paper(args.asString());
+    }
+
+    if (args.isSet("--jetfinding"))
+    {
+        rv = run_jetfinding(args.asString());
     }
 
     return rv;
