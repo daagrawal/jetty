@@ -1,5 +1,5 @@
-#include "run_paper.h"
-
+#include "run_jetfinding.h"
+#include "fastjet/ClusterSequence.hh"
 
 #include <util/pyargs.h>
 #include <util/pyutil.h>
@@ -14,9 +14,10 @@
 #include <string>
 #include <iostream>
 
+using namespace fastjet;
 using namespace std;
 
-int run_paper (const std::string &s)
+int run_jetfinding (const std::string &s)
 {
         PyUtil::Args args(s);
         cout << args.asString("[pythia_run_wrapper:status]") << endl;
@@ -37,8 +38,9 @@ int run_paper (const std::string &s)
         fout->cd();
         TH1F *hpT = (TH1F*)hpT_original->Clone("hpT");
         hpT->Reset();
+        TH1F *jet_pt = new TH1F("jet_pt", "pT of jets;jet number;p_{T} (GeV/#it{c})", 25, 0, 25);
         TH1F *norm = new TH1F("norm", "pT;p_{T} (GeV/#it{c});counts", 3, 0, 3);
-        double eta = .8;
+        double eta = 2;
 
         // initialize pythia with a config and command line args
 		Pythia8::Pythia *ppythia = PyUtil::make_pythia(args.asString());
@@ -50,16 +52,33 @@ int run_paper (const std::string &s)
         LoopUtil::TPbar pbar(nEv);
         for (unsigned int iE = 0; iE < nEv; iE++)
         {
-        	pbar.Update();
+            pbar.Update();
+
+            // setting jetfinder parameters
+            vector<PseudoJet> particles;
+            double R = .4;
+            JetDefinition jet_def(antikt_algorithm, R);
+
             if (pythia.next() == false) continue;
 
             // loop over particles in the event
             for (unsigned int ip = 0; ip < event.size(); ip++)
             {
-                if (event[ip].isFinal() && event[ip].isCharged() && TMath::Abs(event[ip].eta()) < eta)
+                if (event[ip].isFinal() && TMath::Abs(event[ip].eta()) < eta)
                 {
                 	hpT->Fill(event[ip].pT(), 1./event[ip].pT());
+                    particles.push_back(PseudoJet(event[ip].px(), event[ip].py(), event[ip].pz(), event[ip].e()));
                 }
+            }
+
+            // clustering and extracting jets
+            ClusterSequence cs(particles, jet_def);
+            vector<PseudoJet> jets = sorted_by_pt(cs.inclusive_jets());
+
+            // filling histogram with jets' pT
+            for (int i=0; i<jets.size(); i++)
+            {
+                jet_pt->Fill(i, jets[i].pt());
             }
         }
 
