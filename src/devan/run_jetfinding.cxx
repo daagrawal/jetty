@@ -38,7 +38,9 @@ int run_jetfinding (const std::string &s)
         fout->cd();
         TH1F *hpT = (TH1F*)hpT_original->Clone("hpT");
         hpT->Reset();
-        TH1F *jet_pt = new TH1F("jet_pt", "pT of jets;jet number;p_{T} (GeV/#it{c})", 25, 0, 25);
+        TH1F *jet_pt = (TH1F*)hpT_original->Clone("hpT");
+        jet_pt->Reset();
+        jet_pt->SetTitle("Particle jet pT");
         TH1F *norm = new TH1F("norm", "pT;p_{T} (GeV/#it{c});counts", 3, 0, 3);
         double eta = 2;
 
@@ -78,7 +80,7 @@ int run_jetfinding (const std::string &s)
             // filling histogram with jets' pT
             for (int i=0; i<jets.size(); i++)
             {
-                jet_pt->Fill(i, jets[i].pt());
+                jet_pt->Fill(jets[i].pt(), 1./jets[i].pt());
             }
         }
 
