@@ -29,7 +29,7 @@ int run_paper (const std::string &s)
         	outfname = "default_output.root";
         }
 
-        TFile *alice = TFile::Open("~/LBNL/outputs/HEPData-ins1241422-v1-root.root");
+        TFile *alice = TFile::Open("~/LBNL/outputs/particle_data_alice.root");
         alice->cd("Table 1");
         TH1F *hpT_original = (TH1F*)gDirectory->Get("Hist1D_y3");
         
