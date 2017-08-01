@@ -30,7 +30,7 @@ int run_jetfinding (const std::string &s)
         	outfname = "default_output.root";
         }
 
-        TFile *alice = TFile::Open("~/LBNL/outputs/particle_data_alice.root");
+        TFile *alice = TFile::Open("~/lbnl/outputs/particle_data_alice.root");
         alice->cd("Table 1");
         TH1F *hpT_original = (TH1F*)gDirectory->Get("Hist1D_y3");
         
@@ -40,9 +40,9 @@ int run_jetfinding (const std::string &s)
         hpT->Reset();
         TH1F *jet_pt = (TH1F*)hpT_original->Clone("hpT");
         jet_pt->Reset();
-        jet_pt->SetTitle("Particle jet pT");
+        jet_pt->SetNameTitle("jet_pt", "Particle jet pT");
         TH1F *norm = new TH1F("norm", "pT;p_{T} (GeV/#it{c});counts", 3, 0, 3);
-        double eta = 2;
+        double eta = .5;
 
         // initialize pythia with a config and command line args
 		Pythia8::Pythia *ppythia = PyUtil::make_pythia(args.asString());
