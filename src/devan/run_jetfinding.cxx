@@ -33,14 +33,17 @@ int run_jetfinding (const std::string &s)
         TFile *alice = TFile::Open("~/lbnl/outputs/particle_data_alice.root");
         alice->cd("Table 1");
         TH1F *hpT_original = (TH1F*)gDirectory->Get("Hist1D_y3");
+        TFile *alice_jets = TFile::Open("~/lbnl/outputs/jetfinding_data_alice.root");
+        alice_jets->cd("Table 1");
+        TH1F *jets_original = (TH1F*)gDirectory->Get("Hist1D_y2");
         
         TFile *fout = TFile::Open(outfname.c_str(), "RECREATE");
         fout->cd();
         TH1F *hpT = (TH1F*)hpT_original->Clone("hpT");
         hpT->Reset();
-        TH1F *jet_pt = (TH1F*)hpT_original->Clone("hpT");
+        TH1F *jet_pt = (TH1F*)jets_original->Clone("jet_pt");
         jet_pt->Reset();
-        jet_pt->SetNameTitle("jet_pt", "Particle jet pT");
+        jet_pt->SetTitle("Particle jet pT");
         TH1F *norm = new TH1F("norm", "pT;p_{T} (GeV/#it{c});counts", 3, 0, 3);
         double eta = .5;
 
@@ -80,7 +83,7 @@ int run_jetfinding (const std::string &s)
             // filling histogram with jets' pT
             for (int i=0; i<jets.size(); i++)
             {
-                jet_pt->Fill(jets[i].pt(), 1./jets[i].pt());
+                jet_pt->Fill(jets[i].pt(), 1.);
             }
         }
 
