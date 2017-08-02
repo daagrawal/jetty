@@ -42,7 +42,7 @@ int run_subjet (const std::string &s)
         jet_pt->Reset();
         jet_pt->SetNameTitle("jet_pt", "Particle jet pT");
         TH1F *norm = new TH1F("norm", "pT;p_{T} (GeV/#it{c});counts", 3, 0, 3);
-        double eta = .5;
+        double eta = 1.2;
 
         // initialize pythia with a config and command line args
 		Pythia8::Pythia *ppythia = PyUtil::make_pythia(args.asString());
@@ -58,8 +58,10 @@ int run_subjet (const std::string &s)
 
             // setting jetfinder parameters
             vector<PseudoJet> particles;
-            double R = .4;
+            double R = .6;
+            double r = .2;
             JetDefinition jet_def(antikt_algorithm, R);
+            JetDefinition subjet_def(kt_algorithm, r);
 
             if (pythia.next() == false) continue;
 
@@ -77,10 +79,14 @@ int run_subjet (const std::string &s)
             ClusterSequence cs(particles, jet_def);
             vector<PseudoJet> jets = sorted_by_pt(cs.inclusive_jets());
 
-            // filling histogram with jets' pT
+            //clustering and extracting subjets
+            ClusterSequence cs(jets, subjet_def);
+            vector<PseudoJet> subjets = sorted_by_pt(cs.inclusive_jets());
+
+            // filling histogram with subjets' pT
             for (int i=0; i<jets.size(); i++)
             {
-                jet_pt->Fill(jets[i].pt(), 1./jets[i].pt());
+                jet_pt->Fill(subjets[i].pt(), 1./subjets[i].pt());
             }
         }
 
