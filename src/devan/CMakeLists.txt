@@ -2,6 +2,7 @@ set(SOURCES_LIB
 	run_pythia.cxx
 	run_paper.cxx
 	run_jetfinding.cxx
+	run_subjet.cxx
 )
 
 set(MODULE ${PROJECT_NAME}Devan)

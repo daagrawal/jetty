@@ -2,6 +2,7 @@
 #include "run_pythia.h"
 #include "run_paper.h"
 #include "run_jetfinding.h"
+#include "run_subjet.h"
 
 int main ( int argc, char *argv[] )
 {
@@ -22,6 +23,11 @@ int main ( int argc, char *argv[] )
     if (args.isSet("--jetfinding"))
     {
         rv = run_jetfinding(args.asString());
+    }
+
+    if (args.isSet("--subjet"))
+    {
+        rv = run_subjet(args.asString());
     }
 
     return rv;
