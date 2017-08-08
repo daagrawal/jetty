@@ -29,18 +29,13 @@ int run_subjet (const std::string &s)
         {
         	outfname = "default_output.root";
         }
-
-        TFile *alice = TFile::Open("~/lbnl/outputs/particle_data_alice.root");
-        alice->cd("Table 1");
-        TH1F *hpT_original = (TH1F*)gDirectory->Get("Hist1D_y3");
         
         TFile *fout = TFile::Open(outfname.c_str(), "RECREATE");
         fout->cd();
-        TH1F *hpT = (TH1F*)hpT_original->Clone("hpT");
-        hpT->Reset();
-        TH1F *jet_pt = (TH1F*)hpT_original->Clone("hpT");
-        jet_pt->Reset();
-        jet_pt->SetNameTitle("jet_pt", "Particle jet pT");
+        TH1F *jet_pt_25 = new TH1F("jet_pt_25", "Subjet pT", 100, 0, 1);
+        TH1F *jet_pt_50 = new TH1F("jet_pt_50", "Subjet pT", 100, 0, 1);
+        TH1F *jet_pt_100 = new TH1F("jet_pt_100", "Subjet pT", 100, 0, 1);
+        TH1F *jet_pt_200 = new TH1F("jet_pt_200", "Subjet pT", 100, 0, 1);
         TH1F *norm = new TH1F("norm", "pT;p_{T} (GeV/#it{c});counts", 3, 0, 3);
         double eta = 1.2;
 
@@ -61,7 +56,7 @@ int run_subjet (const std::string &s)
             double R = .6;
             double r = .2;
             JetDefinition jet_def(antikt_algorithm, R);
-            JetDefinition subjet_def(kt_algorithm, r);
+            JetDefinition subjet_def(antikt_algorithm, r);
 
             if (pythia.next() == false) continue;
 
@@ -70,7 +65,7 @@ int run_subjet (const std::string &s)
             {
                 if (event[ip].isFinal() && TMath::Abs(event[ip].eta()) < eta)
                 {
-                	hpT->Fill(event[ip].pT(), 1./event[ip].pT());
+                	//hpT->Fill(event[ip].pT(), 1./event[ip].pT());
                     particles.push_back(PseudoJet(event[ip].px(), event[ip].py(), event[ip].pz(), event[ip].e()));
                 }
             }
@@ -80,16 +75,47 @@ int run_subjet (const std::string &s)
             vector<PseudoJet> jets = sorted_by_pt(cs.inclusive_jets());
 
             //clustering and extracting subjets
-            ClusterSequence cs(jets, subjet_def);
-            vector<PseudoJet> subjets = sorted_by_pt(cs.inclusive_jets());
-
-            // filling histogram with subjets' pT
             for (int i=0; i<jets.size(); i++)
             {
-                jet_pt->Fill(subjets[i].pt(), 1./subjets[i].pt());
+                if (jets[i].pt() < 25 || jets[i].pt() > 500)
+                    continue;
+                vector<PseudoJet> constituents = jets[i].constituents();
+                ClusterSequence cs2(constituents, subjet_def);
+                vector<PseudoJet> subjets = sorted_by_pt(cs2.inclusive_jets());
+                
+                // filling histogram with subjets' pT
+                if (jets[i].pt() > 25 && jets[i].pt() < 50)
+                {
+                    for (int j=0; j<subjets.size(); j++)
+                    {
+                        jet_pt_25->Fill(subjets[j].pt()/jets[i].pt(), 1.);
+                    }
+                    continue;
+                }
+                if (jets[i].pt() > 50 && jets[i].pt() < 100)
+                {
+                    for (int j=0; j<subjets.size(); j++)
+                    {
+                        jet_pt_50->Fill(subjets[j].pt()/jets[i].pt(), 1.);
+                    }
+                    continue;
+                }
+                if (jets[i].pt() > 100 && jets[i].pt() < 200)
+                {
+                    for (int j=0; j<subjets.size(); j++)
+                    {
+                        jet_pt_100->Fill(subjets[j].pt()/jets[i].pt(), 1.);
+                    }
+                    continue;
+                }
+                else
+                    for (int j=0; j<subjets.size(); j++)
+                    {
+                        jet_pt_200->Fill(subjets[j].pt()/jets[i].pt(), 1.);
+                    }
             }
         }
-
+        
         norm->SetBinContent(1, pythia.info.sigmaGen());
         norm->SetBinContent(2, pythia.info.weightSum());
         norm->SetBinContent(3, eta);

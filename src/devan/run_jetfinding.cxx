@@ -30,10 +30,10 @@ int run_jetfinding (const std::string &s)
         	outfname = "default_output.root";
         }
 
-        TFile *alice = TFile::Open("~/lbnl/outputs/particle_data_alice.root");
+        TFile *alice = TFile::Open("~/lbnl/outputs/particles/particle_data_alice.root");
         alice->cd("Table 1");
         TH1F *hpT_original = (TH1F*)gDirectory->Get("Hist1D_y3");
-        TFile *alice_jets = TFile::Open("~/lbnl/outputs/jetfinding_data_alice.root");
+        TFile *alice_jets = TFile::Open("~/lbnl/outputs/jetfinding_2R/jetfinding_data_alice.root");
         alice_jets->cd("Table 1");
         TH1F *jets_original = (TH1F*)gDirectory->Get("Hist1D_y2");
         
@@ -61,7 +61,7 @@ int run_jetfinding (const std::string &s)
 
             // setting jetfinder parameters
             vector<PseudoJet> particles;
-            double R = .4;
+            double R = .2;
             JetDefinition jet_def(antikt_algorithm, R);
 
             if (pythia.next() == false) continue;
