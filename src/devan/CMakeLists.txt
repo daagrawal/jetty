@@ -3,6 +3,7 @@ set(SOURCES_LIB
 	run_paper.cxx
 	run_jetfinding.cxx
 	run_subjet.cxx
+	AnalysisClass.cxx
 )
 
 set(MODULE ${PROJECT_NAME}Devan)
