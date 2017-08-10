@@ -77,7 +77,7 @@ int run_subjet (const std::string &s)
             //clustering and extracting subjets
             for (int i=0; i<jets.size(); i++)
             {
-                if (jets[i].pt() < 25 || jets[i].pt() > 500)
+                if (jets[i].pt() < 25 || jets[i].pt() > 500 || TMath::Abs(jets[i].eta()) > eta - R)
                     continue;
                 vector<PseudoJet> constituents = jets[i].constituents();
                 ClusterSequence cs2(constituents, subjet_def);
