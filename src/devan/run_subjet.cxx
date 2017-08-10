@@ -1,5 +1,6 @@
 #include "run_subjet.h"
 #include "fastjet/ClusterSequence.hh"
+#include "AnalysisClass.h"
 
 #include <util/pyargs.h>
 #include <util/pyutil.h>
@@ -29,7 +30,17 @@ int run_subjet (const std::string &s)
         {
         	outfname = "default_output.root";
         }
+
+        // initializing data extraction from data
+        TFile *fin = new TFile("AnalysisResults.root");
+        TDirectoryFile *fdir = (TDirectoryFile*)fin->Get("AliAnalysisTaskNTGJ");
+        TTree *t = (TTree*)fdir->Get("_tree_event");
+        AnalysisClass ana(t);
+        // iterative counters for data extraction
+        Long64_t nbytes = 0, nb = 0;
+        Long64_t jentry = 0;
         
+        // creating file to be written?
         TFile *fout = TFile::Open(outfname.c_str(), "RECREATE");
         fout->cd();
         TH1F *jet_pt_25 = new TH1F("jet_pt_25", "Subjet pT", 100, 0, 1);
@@ -50,6 +61,23 @@ int run_subjet (const std::string &s)
         for (unsigned int iE = 0; iE < nEv; iE++)
         {
             pbar.Update();
+
+            // implementing data extraction
+            Long64_t ientry = ana.LoadTree(jentry);
+            if (ientry < 0) break;
+            nb = ana.GetEntry(jentry);
+            nbytes += nb;
+            jentry++;
+            if (ana.ntrack < 1) continue;
+            vector<PseudoJet> tracks;
+            for (int itrack = 0; itrack < ana.ntrack; itrack++)
+            {
+                PseudoJet track;
+                track.reset_momentum_PtYPhiM (tracks[itrack].pt(), tracks[itrack].eta(), tracks[itrack].phi(), 0.0);
+                tracks.push_back(track);
+                if (iE % 1000 == 0 && itrack == 0)
+                    cout << "track "  << itrack << " pt= " << ana.track_pt[itrack] << endl;
+            }
 
             // setting jetfinder parameters
             vector<PseudoJet> particles;
