@@ -68,9 +68,9 @@ int run_subjet (const std::string &s)
             nb = ana.GetEntry(jentry);
             nbytes += nb;
             jentry++;
+            vector<PseudoJet> tracks;
             if (ana.ntrack > 1) 
             {
-                vector<PseudoJet> tracks;
                 for (int itrack = 0; itrack < ana.ntrack; itrack++)
                 {
                     PseudoJet track;
@@ -97,6 +97,8 @@ int run_subjet (const std::string &s)
                     particles.push_back(PseudoJet(event[ip].px(), event[ip].py(), event[ip].pz(), event[ip].e()));
                 }
             }
+
+            particles.insert(particles.end(), tracks.begin(), tracks.end());
 
             // clustering and extracting jets
             ClusterSequence cs(particles, jet_def);
