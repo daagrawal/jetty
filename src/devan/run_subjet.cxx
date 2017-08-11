@@ -31,8 +31,8 @@ int run_subjet (const std::string &s)
         	outfname = "default_output.root";
         }
 
-        // initializing data extraction from data
-        TFile *fin = new TFile("AnalysisResults.root");
+        // initializing data extraction
+        TFile *fin = new TFile("~/lbnl/jetty/src/devan/AnalysisResults.root");
         TDirectoryFile *fdir = (TDirectoryFile*)fin->Get("AliAnalysisTaskNTGJ");
         TTree *t = (TTree*)fdir->Get("_tree_event");
         AnalysisClass ana(t);
@@ -64,19 +64,19 @@ int run_subjet (const std::string &s)
 
             // implementing data extraction
             Long64_t ientry = ana.LoadTree(jentry);
-            if (ientry < 0) break;
+            if (ientry < 0) continue;
             nb = ana.GetEntry(jentry);
             nbytes += nb;
             jentry++;
-            if (ana.ntrack < 1) continue;
-            vector<PseudoJet> tracks;
-            for (int itrack = 0; itrack < ana.ntrack; itrack++)
+            if (ana.ntrack > 1) 
             {
-                PseudoJet track;
-                track.reset_momentum_PtYPhiM (tracks[itrack].pt(), tracks[itrack].eta(), tracks[itrack].phi(), 0.0);
-                tracks.push_back(track);
-                if (iE % 1000 == 0 && itrack == 0)
-                    cout << "track "  << itrack << " pt= " << ana.track_pt[itrack] << endl;
+                vector<PseudoJet> tracks;
+                for (int itrack = 0; itrack < ana.ntrack; itrack++)
+                {
+                    PseudoJet track;
+                    track.reset_momentum_PtYPhiM (ana.track_pt[itrack], ana.track_eta[itrack], ana.track_phi[itrack], 0.0);
+                    tracks.push_back(track);
+                }
             }
 
             // setting jetfinder parameters

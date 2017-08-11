@@ -29,7 +29,9 @@ void AnalysisClass::Loop()
 // METHOD2: replace line
 //    fChain->GetEntry(jentry);       //read all branches
 //by  b_branchname->GetEntry(ientry); //read only this branch
-   if (fChain == 0) return;
+   
+
+   /*if (fChain == 0) return;
 
    Long64_t nentries = fChain->GetEntriesFast();
 
@@ -49,5 +51,5 @@ void AnalysisClass::Loop()
       	track.reset_momentum_PtYPhiM (track_pt[itrack], track_eta[itrack], track_phi[itrack], 0.0);
       	tracks.push_back(track);
       }
-   }
+   }*/
 }
