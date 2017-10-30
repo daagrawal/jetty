@@ -2,7 +2,7 @@
 #include "fastjet/ClusterSequence.hh"
 
 #include <util/pythia/pyargs.h>
-#include <util/pyutil.h>
+#include <util/pythia/pyutil.h>
 #include <util/looputil.h>
 
 #include <Pythia8/Pythia.h>
