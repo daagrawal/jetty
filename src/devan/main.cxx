@@ -3,6 +3,7 @@
 #include "run_paper.h"
 #include "run_jetfinding.h"
 #include "run_subjet.h"
+#include "run_background.h"
 
 int main ( int argc, char *argv[] )
 {
@@ -28,6 +29,10 @@ int main ( int argc, char *argv[] )
     if (args.isSet("--subjet"))
     {
         rv = run_subjet(args.asString());
+    }
+    if (args.isSet("--background"))
+    {
+        rv = run_background(args.asString());
     }
 
     return rv;

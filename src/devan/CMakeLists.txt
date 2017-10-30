@@ -4,6 +4,7 @@ set(SOURCES_LIB
 	run_jetfinding.cxx
 	run_subjet.cxx
 	AnalysisClass.cxx
+	run_background.cxx
 )
 
 set(MODULE ${PROJECT_NAME}Devan)
