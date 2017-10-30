@@ -53,7 +53,7 @@ int run_background (const std::string &s)
 
             // setting jetfinder parameters
             vector<PseudoJet> particles;
-            vector<PseudoJet> particles_with_background
+            vector<PseudoJet> particles_with_background;
             double R = .4;
             double r = .2;
             JetDefinition jet_def(antikt_algorithm, R);
@@ -105,7 +105,7 @@ int run_background (const std::string &s)
                 // filling histogram with subjets' pT
                 for (int j=0; j<subjets.size(); j++)
                 {
-                    jet_pt->Fill(subjets[j].pt()/jets[i].pt(), 1.);
+                    jet_pt_vacuum->Fill(subjets[j].pt()/jets[i].pt(), 1.);
                 }
                 continue;
             }
