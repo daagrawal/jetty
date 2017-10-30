@@ -75,11 +75,11 @@ int run_background (const std::string &s)
             //Generate background particles and push_back to particles_with_background
             for (int i = 0; i < 10; i++)
             {
-                temp_eta = (2/10)*i - 2
-                temp_theta = 2*TMath::ATan(TMath::Exp(-temp_eta))
+                double temp_eta = (2/10)*i - 2;
+                double temp_theta = 2*TMath::ATan(TMath::Exp(-temp_eta));
                 for (int j = 0; j < 10; j++)
                 {
-                    temp_phi = 2*TMath::Pi()*i/10
+                    double temp_phi = 2*TMath::Pi()*i/10;
                     particles_with_background.push_back(PseudoJet(  (700./TMath::C())*TMath::Sin(temp_theta)*TMath::Cos(temp_phi), 
                                                                     (700./TMath::C())*TMath::Sin(temp_theta)*TMath::Sin(temp_phi), 
                                                                     (700./TMath::C())*TMath::Cos(temp_theta), 
