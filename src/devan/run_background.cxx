@@ -73,11 +73,11 @@ int run_background (const std::string &s)
             }
 
             //Generate background particles and push_back to particles_with_background
-            for (int i = 0; i < 10, i++)
+            for (int i = 0; i < 10; i++)
             {
                 temp_eta = (2/10)*i - 2
                 temp_theta = 2*TMath::ATan(TMath::Exp(-temp_eta))
-                for (int j = 0; j < 10, i++)
+                for (int j = 0; j < 10; j++)
                 {
                     temp_phi = 2*TMath::Pi()*i/10
                     particles_with_background.push_back(PseudoJet(  (700./TMath::C())*TMath::Sin(temp_theta)*TMath::Cos(temp_phi), 
@@ -89,7 +89,7 @@ int run_background (const std::string &s)
 
             // clustering and extracting jets
             ClusterSequence cs(particles, jet_def);
-            ClusterSequence cs_with_background(particles_with_background, jet_def)
+            ClusterSequence cs_with_background(particles_with_background, jet_def);
             vector<PseudoJet> jets = sorted_by_pt(cs.inclusive_jets());
             vector<PseudoJet> jets_with_background = sorted_by_pt(cs_with_background.inclusive_jets());
 
