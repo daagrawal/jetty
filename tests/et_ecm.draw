@@ -1,0 +1,27 @@
+#-----------------------
+#figure
+#geom 500x500
+#date
+#title: smart group
+
+#legend 0.2,0.6,0.8,0.87,, tx_size=0.03 ncol=2
+
+mb_nd_hard/et_sum.root 		:prof_pmom_100 :p : title=<#Delta p_{z}> w/ ND hard
+mb_nd_hard/fits.root 		:fitp0 :l -k +l1 noleg: title=fit <#Delta p_{z}> w/ ND hard
+#mb_nd_hard/et_sum.root 		:p0 :p : title=#Delta p_{0} w/ ND hard
+#mb_nd_hard/et_sum.root 		:p1 :p : title=#Delta p_{1} w/ ND hard
+
+mb/et_sum.root 		:prof_pmom_100 :p : title=<#Delta p_{z}> w/o ND hard
+mb/fits.root 		:fitp0 :l -k noleg +l1 : title=#Delta p_{z}^{beam}, Min. Bias
+
+mb/fits.root 		:fitpe :l3 -k: title=<E_{T}>
+
+mb/fits.root 		:ref :l9 : title=*reference* obsolete fit
+
+#logx 1
+#logy 1
+#x #sqrt{s} (GeV)
+#y <E_{T}> or <#Delta p_{z}>
+#miny 0.5
+#maxy 200
+#xrange 5,2e4
