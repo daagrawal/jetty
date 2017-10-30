@@ -1,7 +1,7 @@
 #include "run_jetfinding.h"
 #include "fastjet/ClusterSequence.hh"
 
-#include <util/pyargs.h>
+#include <util/pythia/pyargs.h>
 #include <util/pyutil.h>
 #include <util/looputil.h>
 

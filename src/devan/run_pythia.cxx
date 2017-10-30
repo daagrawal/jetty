@@ -1,6 +1,6 @@
 #include "run_pythia.h"
 
-#include <util/pyargs.h>
+#include <util/pythia/pyargs.h>
 #include <util/pyutil.h>
 #include <util/looputil.h>
 
