@@ -3,7 +3,7 @@
 #include "AnalysisClass.h"
 
 #include <util/pythia/pyargs.h>
-#include <util/pythia/pyutil.h>
+#include <util/pyutil.h>
 #include <util/looputil.h>
 
 #include <Pythia8/Pythia.h>
