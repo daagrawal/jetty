@@ -47,6 +47,8 @@ int run_background (const std::string &s)
 		// this is where the event loop section starts
         auto nEv = args.getI("Main:numberOfEvents");
         LoopUtil::TPbar pbar(nEv);
+        double num_background_particles = 100.
+        double sqrt_num_background = TMath::Sqrt(num_background_particles)
         for (unsigned int iE = 0; iE < nEv; iE++)
         {
             pbar.Update();
@@ -73,13 +75,13 @@ int run_background (const std::string &s)
             }
 
             //Generate background particles and push_back to particles_with_background
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < sqrt_num_background; i++)
             {
-                double temp_eta = (2/10)*i - 2;
+                double temp_eta = (2/sqrt_num_background)*i - 2;
                 double temp_theta = 2*TMath::ATan(TMath::Exp(-temp_eta));
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < sqrt_num_background; j++)
                 {
-                    double temp_phi = 2*TMath::Pi()*i/10;
+                    double temp_phi = 2*TMath::Pi()*j/sqrt_num_background;
                     particles_with_background.push_back(PseudoJet(  (700./TMath::C())*TMath::Sin(temp_theta)*TMath::Cos(temp_phi), 
                                                                     (700./TMath::C())*TMath::Sin(temp_theta)*TMath::Sin(temp_phi), 
                                                                     (700./TMath::C())*TMath::Cos(temp_theta), 
@@ -130,6 +132,10 @@ int run_background (const std::string &s)
         norm_vacuum->SetBinContent(1, pythia.info.sigmaGen());
         norm_vacuum->SetBinContent(2, pythia.info.weightSum());
         norm_vacuum->SetBinContent(3, eta);
+
+        norm_with_background->SetBinContent(1, pythia.info.sigmaGen());
+        norm_with_background->SetBinContent(2, pythia.info.weightSum());
+        norm_with_background->SetBinContent(3, eta);
 
         pythia.stat();
         cout << "[i] Generation done." << endl;
