@@ -37,6 +37,8 @@ int run_background (const std::string &s)
         TH1F *norm_vacuum = new TH1F("norm_vacuum", "pT;p_{T} (GeV/#it{c});counts", 3, 0, 3);
         TH1F *jet_pt_with_background = (TH1F*) jet_pt_vacuum->Clone("jet_pt_with_background");
         TH1F *norm_with_background = (TH1F*) norm_vacuum->Clone("norm_with_background");
+        TH1F *delta_s_vacuum = new TH1F("delta_s_vacuum", "Delta s of jets", 100, 0, 1);
+        TH1F *delta_s_with_background = new TH1F("delta_s_with_background", "Delta s of jets", 100, 0, 1);
         double eta = 2;
 
         // initialize pythia with a config and command line args
@@ -68,7 +70,6 @@ int run_background (const std::string &s)
             {
                 if (event[ip].isFinal() && TMath::Abs(event[ip].eta()) < eta)
                 {
-                	//hpT->Fill(event[ip].pT(), 1./event[ip].pT());
                     particles.push_back(PseudoJet(event[ip].px(), event[ip].py(), event[ip].pz(), event[ip].e()));
                     particles_with_background.push_back(PseudoJet(event[ip].px(), event[ip].py(), event[ip].pz(), event[ip].e()));
                 }
@@ -109,6 +110,10 @@ int run_background (const std::string &s)
                 {
                     jet_pt_vacuum->Fill(subjets[j].pt()/jets[i].pt(), 1.);
                 }
+
+                // computing delta_s_vacuum
+                delta_s_vacuum->Fill((subjets[0].pt() - subjets[1].pt()) / jets[i].pt(), 1.);
+
                 continue;
             }
             for (int i=0; i<jets_with_background.size(); i++)
@@ -125,6 +130,10 @@ int run_background (const std::string &s)
                 {
                     jet_pt_with_background->Fill(subjets[j].pt()/jets_with_background[i].pt(), 1.);
                 }
+
+                //computing delta_s_with_background
+                delta_s_with_background->Fill((subjets[0].pt() - subjets[1].pt()) / jets[i].pt(), 1.);
+
                 continue;
             }
         }
