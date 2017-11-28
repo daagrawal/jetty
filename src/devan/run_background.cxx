@@ -49,8 +49,9 @@ int run_background (const std::string &s)
 		// this is where the event loop section starts
         auto nEv = args.getI("Main:numberOfEvents");
         LoopUtil::TPbar pbar(nEv);
-        double num_background_particles = 100.;
+        double num_background_particles = 1000.;
         double sqrt_num_background = TMath::Sqrt(num_background_particles);
+        double pt_background = 700.
         for (unsigned int iE = 0; iE < nEv; iE++)
         {
             pbar.Update();
@@ -83,10 +84,10 @@ int run_background (const std::string &s)
                 for (int j = 0; j < sqrt_num_background; j++)
                 {
                     double temp_phi = 2*TMath::Pi()*j/sqrt_num_background;
-                    particles_with_background.push_back(PseudoJet(  (700./TMath::C())*TMath::Sin(temp_theta)*TMath::Cos(temp_phi), 
-                                                                    (700./TMath::C())*TMath::Sin(temp_theta)*TMath::Sin(temp_phi), 
-                                                                    (700./TMath::C())*TMath::Cos(temp_theta), 
-                                                                    700.    ));
+                    particles_with_background.push_back(PseudoJet(  (pt_background/TMath::C())*TMath::Sin(temp_theta)*TMath::Cos(temp_phi), 
+                                                                    (pt_background/TMath::C())*TMath::Sin(temp_theta)*TMath::Sin(temp_phi), 
+                                                                    (pt_background/TMath::C())*TMath::Cos(temp_theta), 
+                                                                    pt_background    ));
                 }
             }
 
