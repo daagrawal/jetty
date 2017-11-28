@@ -49,9 +49,9 @@ int run_background (const std::string &s)
 		// this is where the event loop section starts
         auto nEv = args.getI("Main:numberOfEvents");
         LoopUtil::TPbar pbar(nEv);
-        double num_background_particles = 2000.;
+        double num_background_particles = 100.;
         double sqrt_num_background = TMath::Sqrt(num_background_particles);
-        double pt_background = 700.;
+        double pt_background = 1400.;
         for (unsigned int iE = 0; iE < nEv; iE++)
         {
             pbar.Update();
