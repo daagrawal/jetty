@@ -39,6 +39,10 @@ int run_background (const std::string &s)
         TH1F *norm_with_background = (TH1F*) norm_vacuum->Clone("norm_with_background");
         TH1F *delta_s_vacuum = new TH1F("delta_s_vacuum", "Delta s of jets", 100, 0, 1);
         TH1F *delta_s_with_background = new TH1F("delta_s_with_background", "Delta s of jets", 100, 0, 1);
+        TH1F *background_spectrum = new TH1F("background_spectrum", "Distribution of Background Particles", 100, 0, 6.3);
+        TH1F *background_jetfinder = new TH1F("background_jetfinder", "Results of Jetfinder on Only Background", 150, 0, 150);
+        TH1F *jet_spectrum_vacuum = new TH1F("jet_spectrum_vacuum", "Distribution of Full Jet pT in Vacuum", 150, 0, 150);
+        TH1F *jet_spectrum_with_background = new TH1F("jet_spectrum_with_background", "Distribution of Full Jet pT with Background", 150, 0, 150);
         double eta = 2;
 
         // initialize pythia with a config and command line args
@@ -51,7 +55,7 @@ int run_background (const std::string &s)
         LoopUtil::TPbar pbar(nEv);
         double num_background_particles = 2000.;
         double sqrt_num_background = TMath::Sqrt(num_background_particles);
-        double pt_background = 1400.;
+        double pt_background = 700.;
         for (unsigned int iE = 0; iE < nEv; iE++)
         {
             pbar.Update();
@@ -88,6 +92,7 @@ int run_background (const std::string &s)
                                                                     (pt_background/TMath::C())*TMath::Sin(temp_theta)*TMath::Sin(temp_phi), 
                                                                     (pt_background/TMath::C())*TMath::Cos(temp_theta), 
                                                                     pt_background    ));
+                    background_spectrum->Fill(temp_phi, temp_eta, 1.)
                 }
             }
 
@@ -100,7 +105,7 @@ int run_background (const std::string &s)
             //clustering and extracting subjets
             for (int i=0; i<jets.size(); i++)
             {
-                if (jets[i].pt() < 90 || jets[i].pt() > 110 || TMath::Abs(jets[i].eta()) > eta - R)
+                if (jets[i].pt() < 90 || TMath::Abs(jets[i].eta()) > eta - R)
                     continue;
                 vector<PseudoJet> constituents = jets[i].constituents();
                 ClusterSequence cs2(constituents, subjet_def);
@@ -114,6 +119,7 @@ int run_background (const std::string &s)
 
                 // computing delta_s_vacuum
                 delta_s_vacuum->Fill((subjets[0].pt() - subjets[1].pt()) / jets[i].pt(), 1.);
+                jet_spectrum_vacuum->Fill(jets[i].pt(), 1.);
 
                 continue;
             }
@@ -134,6 +140,7 @@ int run_background (const std::string &s)
 
                 //computing delta_s_with_background
                 delta_s_with_background->Fill((subjets[0].pt() - subjets[1].pt()) / jets[i].pt(), 1.);
+                jet_spectrum_with_background->Fill(jets[i].pt(), 1.);
 
                 continue;
             }
