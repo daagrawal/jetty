@@ -84,7 +84,7 @@ int run_background (const std::string &s)
             //Generate background particles and push_back to particles_with_background
             for (int i = 0; i < sqrt_num_background; i++)
             {
-                double temp_eta = (2/sqrt_num_background)*i - 2;
+                double temp_eta = (4/sqrt_num_background)*i - 2;
                 double temp_theta = 2*TMath::ATan(TMath::Exp(-temp_eta));
                 for (int j = 0; j < sqrt_num_background; j++)
                 {
@@ -126,8 +126,7 @@ int run_background (const std::string &s)
             }
             for (int i=0; i<jets_with_background.size(); i++)
             {
-                if (jets_with_background[i].pt() < 90 || jets_with_background[i].pt() > 110 || 
-                        TMath::Abs(jets_with_background[i].eta()) > eta - R)
+                if (jets_with_background[i].pt() < 90 || TMath::Abs(jets_with_background[i].eta()) > eta - R)
                     continue;
                 vector<PseudoJet> constituents = jets_with_background[i].constituents();
                 ClusterSequence cs2(constituents, subjet_def);
