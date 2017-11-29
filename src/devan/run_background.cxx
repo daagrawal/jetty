@@ -93,7 +93,7 @@ int run_background (const std::string &s)
                                                                     (pt_background/TMath::C())*TMath::Sin(temp_theta)*TMath::Sin(temp_phi), 
                                                                     (pt_background/TMath::C())*TMath::Cos(temp_theta), 
                                                                     pt_background    ));
-                    background_spectrum->Fill(temp_phi, temp_eta, 1.)
+                    background_spectrum->Fill(temp_phi, temp_eta, 1.);
                 }
             }
 
