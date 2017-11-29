@@ -41,9 +41,9 @@ int run_background (const std::string &s)
         TH1F *delta_s_vacuum = new TH1F("delta_s_vacuum", "Delta s of jets", 100, 0, 1);
         TH1F *delta_s_with_background = new TH1F("delta_s_with_background", "Delta s of jets", 100, 0, 1);
         TH2F *background_spectrum = new TH2F("background_spectrum", "Distribution of Background Particles", 100, 0, 6.3, 100, -2, 2);
-        TH1F *jet_spectrum_vacuum = new TH1F("jet_spectrum_vacuum", "Distribution of Full Jet pT in Vacuum", 150, 0, 150);
-        TH1F *jet_spectrum_with_background = new TH1F("jet_spectrum_with_background", "Distribution of Full Jet pT with Background", 150, 0, 150);
-        TH1F *backgrounmd_jetfinder = new TH1F("background_jetfinder", "Results of Jetfinder on Only Background", 150, 0, 150);
+        TH1F *jet_spectrum_vacuum = new TH1F("jet_spectrum_vacuum", "Distribution of Full Jet pT in Vacuum", 150, 70, 180);
+        TH1F *jet_spectrum_with_background = new TH1F("jet_spectrum_with_background", "Distribution of Full Jet pT with Background", 150, 70, 180);
+        TH1F *backgrounmd_jetfinder = new TH1F("background_jetfinder", "Results of Jetfinder on Only Background", 100, 0, 10);
         double eta = 2;
 
         // initialize pythia with a config and command line args
@@ -54,7 +54,7 @@ int run_background (const std::string &s)
 		// this is where the event loop section starts
         auto nEv = args.getI("Main:numberOfEvents");
         LoopUtil::TPbar pbar(nEv);
-        double num_background_particles = 2000.;
+        double num_background_particles = 100.;
         double sqrt_num_background = TMath::Sqrt(num_background_particles);
         double pt_background = 700.;
         for (unsigned int iE = 0; iE < nEv; iE++)
